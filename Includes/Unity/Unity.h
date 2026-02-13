@@ -201,7 +201,7 @@ struct monoDictionary2
     std::map<TKey, TValue> toMap()
     {
         std::map<TKey, TValue> ret;
-        auto lst = entries->template toCPPlist();
+        auto lst = entries->toCPPlist();
         for (auto enter : lst)
             ret.insert(std::make_pair(enter.key, enter.value));
         return std::move(ret);
@@ -210,7 +210,7 @@ struct monoDictionary2
     std::vector<TKey> getKeys()
     {
         std::vector<TKey> ret;
-        auto lst = entries->template toCPPlist();
+        auto lst = entries->toCPPlist();
         for (auto enter : lst)
             ret.push_back(enter.key);
         return std::move(ret);
@@ -219,7 +219,7 @@ struct monoDictionary2
     std::vector<TValue> getValues()
     {
         std::vector<TValue> ret;
-        auto lst = entries->template toCPPlist();
+        auto lst = entries->toCPPlist();
         for (auto enter : lst)
             ret.push_back(enter.value);
         return std::move(ret);
