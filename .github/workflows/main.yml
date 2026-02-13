@@ -1,0 +1,35 @@
+name: Compilar Mod Menu FF
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Instalar Theos
+        run: |
+          bash -c "$(curl -fsSL https://raw.githubusercontent.com/theos/theos/master/bin/install-theos)"
+          echo "THEOS=~/theos" >> $GITHUB_ENV
+
+      - name: Baixar iOS SDK
+        run: |
+          git clone https://github.com/theos/sdks.git $THEOS/sdks
+          mv $THEOS/sdks/iPhoneOS14.5.sdk $THEOS/sdks/iPhoneOS.sdk
+
+      - name: Compilar (Make Package)
+        run: |
+          make package FINALPACKAGE=1
+
+      - name: Upload do Arquivo Final
+        uses: actions/upload-artifact@v4
+        with:
+          name: FreeFireMenu
+          path: packages/*.deb
